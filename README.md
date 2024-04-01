@@ -1,0 +1,1 @@
+sway waybar foot rofi swappy swaylock swaync wlogout gammastep gammastep-indicator
