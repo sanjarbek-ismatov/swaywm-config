@@ -1,0 +1,21 @@
+set $wallpaper /home/sanjarbek/Pictures/wallpapers/Dynamic-Wallpapers/Dark/highway_dark.jpg
+
+set $background #020203
+set $foreground #bbd0e3
+
+set $color0 #020203
+set $color1 #44527A
+set $color2 #4A5A87
+set $color3 #546796
+set $color4 #5A71A3
+set $color5 #6176A5
+set $color6 #739EC3
+set $color7 #bbd0e3
+set $color8 #82919e
+set $color9 #44527A
+set $color10 #4A5A87
+set $color11 #546796
+set $color12 #5A71A3
+set $color13 #6176A5
+set $color14 #739EC3
+set $color15 #bbd0e3
