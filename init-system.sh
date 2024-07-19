@@ -12,6 +12,7 @@ max_parallel_downloads=10
 deltarpm=true
 defaultyes=true" > /etc/dnf/dnf.conf
 
+
 # RPM Fusion
 echo "RPM fusion installing..."
 sudo dnf install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
@@ -27,26 +28,6 @@ sudo fwupdmgr get-devices # Lists devices with available updates.
 sudo fwupdmgr get-updates # Fetches list of available updates.
 sudo fwupdmgr update
 
-# Battery saving
-
-echo "Battery saving"
-sudo dnf install -y powertop power-profiles-daemon
-cat << EOF | sudo tee /etc/systemd/system/powertop.service
-[Unit]
-Description=PowerTOP auto tune
-
-[Service]
-Type=oneshot
-Environment="TERM=dumb"
-RemainAfterExit=true
-ExecStart=/usr/sbin/powertop --auto-tune
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-systemctl daemon-reload
-systemctl enable powertop.service
 
 # Codecs
 
@@ -70,3 +51,25 @@ sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
 # Time
 
 sudo timedatectl set-local-rtc '0'
+
+
+# Battery saving
+
+echo "Battery saving"
+sudo dnf install -y powertop power-profiles-daemon
+cat << EOF | sudo tee /etc/systemd/system/powertop.service
+[Unit]
+Description=PowerTOP auto tune
+
+[Service]
+Type=oneshot
+Environment="TERM=dumb"
+RemainAfterExit=true
+ExecStart=/usr/sbin/powertop --auto-tune
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+systemctl enable powertop.service
