@@ -145,9 +145,7 @@ configuration {
 /*	me-select-entry: "MousePrimary";*/
 /*	me-accept-entry: "MouseDPrimary";*/
 /*	me-accept-custom: "Control+MouseDPrimary";*/
-  timeout {
-      action: "kb-cancel";
-      delay:  0;
+ timeout { action: "kb-cancel"; delay: 0;
   }
   filebrowser {
       directories-first: true;
@@ -178,29 +176,27 @@ element {
     scrollbar: true;
 
     /* Gruvbox dark colors */
-    gruvbox-dark-bg0-hard:     #000000;
-    gruvbox-dark-bg0:          #000000;
+    gruvbox-dark-bg0-hard:     #1d2021;
+    gruvbox-dark-bg0:          #282828;
     gruvbox-dark-bg2:          #504945;
     gruvbox-dark-fg0:          #fbf1c7;
-    gruvbox-dark-fg1:          #ffffff;
+    gruvbox-dark-fg1:          #ebdbb2;
     gruvbox-dark-red-dark:     #cc241d;
     gruvbox-dark-red-light:    #fb4934;
     gruvbox-dark-yellow-dark:  #d79921;
     gruvbox-dark-yellow-light: #fabd2f;
     gruvbox-dark-gray:         #a89984;
-    black: #000000;
-    white: #ffffff;
 
     /* Theme colors */
-    background:                  @black;
-    background-color:            @black;
-    foreground:                  @white;
-    border-color:                @white;
-    separatorcolor:              @white;
-    scrollbar-handle:            @white;
+    background:                  @gruvbox-dark-bg0-hard;
+    background-color:            @background;
+    foreground:                  @gruvbox-dark-fg1;
+    border-color:                @gruvbox-dark-gray;
+    separatorcolor:              @border-color;
+    scrollbar-handle:            @border-color;
 
-    normal-background:           @black;
-    normal-foreground:           @white;
+    normal-background:           @background;
+    normal-foreground:           @foreground;
     alternate-normal-background: @gruvbox-dark-bg0;
     alternate-normal-foreground: @foreground;
     selected-normal-background:  @gruvbox-dark-bg2;

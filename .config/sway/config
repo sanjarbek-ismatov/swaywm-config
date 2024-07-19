@@ -17,12 +17,11 @@ set $right l
 # Recommends: foot
 set $term foot
 set $files nautilus
-set $scriptsDir $HOME/.config/sway/scripts
-set $scripts $HOME/.config/sway/UserScripts
-set $next_or_new swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (max_by(.num) | .num) as $maxOutput | (.[] | select(.focused == true) | .num) as $current | if $maxOutput > $current then "next_on_output" else $max+1 end'
-set $previous_or_first swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (min_by(.num) | .num) as $minOutput | (.[] | select(.focused == true) | .num) as $current | if $minOutput < $current then "prev_on_output" else $current end'
-
-    
+font pango:Fira Code Medium 11
+#titlebar_padding 1
+#titlebar_border_thickness 0
+#default_border none
+#default_floating_border none
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
@@ -33,28 +32,29 @@ set $rofi_cmd rofi \
 # executables from PATH.
 # TODO: add window with the next release of rofi-wayland
 set $menu $rofi_cmd -show drun -modi drun
+set $next_or_new swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (max_by(.num) | .num) as $maxOutput | (.[] | select(.focused == true) | .num) as $current | if $maxOutput > $current then "next_on_output" else $max+1 end'
+set $previous_or_first swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (min_by(.num) | .num) as $minOutput | (.[] | select(.focused == true) | .num) as $current | if $minOutput < $current then "prev_on_output" else $current end'
 
-font pango:Fira Code Medium 11
 ### Output configuration
 #
-# Default wallpaper (more resolutions are available in /u;13u;13usr/share/backgrounds/sway/)
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg ~/.config/sway/bg/wallpaper.jpg fill
+output * bg /usr/share/backgrounds/default.png fill
 #
 # Example configuration:
 #
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+output eDP-1  resolution 1920x1080 position 1920,0 scale 1
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-
+exec wl-paste --watch  clipman store
 ### Idle configuration
 #
 # Example configuration:
 #
- exec swayidle -w \
-          timeout 600 'swaylock -f -c 000000' \
-          timeout 1200 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-          before-sleep 'swaylock -f -c 000000'
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -64,13 +64,19 @@ output * bg ~/.config/sway/bg/wallpaper.jpg fill
 #
 # Example configuration:
 #
-  input "type:touchpad" {
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+input "type:touchpad" {
        dwt enabled
        tap enabled
        natural_scroll enabled
        middle_emulation enabled
-   }
-#
+  }
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
@@ -82,32 +88,16 @@ output * bg ~/.config/sway/bg/wallpaper.jpg fill
     bindsym $mod+Return exec $term
 
     # Kill focused window
+    bindsym $mod+q kill
     bindsym Alt+F4 kill
 
     # Start your launcher
     bindsym $mod+d exec $menu
-    bindsym $mod+t exec $files
     bindsym $mod+c exec code
-    bindsym $mod+f exec firefox
-    bindsym Ctrl+Alt+l exec $scriptsDir/LockScreen.sh
-    bindsym $mod+p exec $scriptsDir/Wlogout.sh
-    bindsym Ctrl+Alt+v exec $scriptsDir/ClipManager.sh
-    bindsym $mod+Shift+s exec $scriptsDir/ScreenShot.sh --area
-    bindsym $mod+Print exec $scriptsDir/ScreenShot.sh --now    
-    bindsym $mod+Alt+Right workspace next
-    bindsym $mod+Alt+Left workspace prev	 
-    bindsym Alt+Right exec swaymsg "workspace $($next_or_new)"
-    bindsym Alt+Left exec swaymsg "workspace $($previous_or_first)" 
-    bindgesture swipe:right exec swaymsg "workspace $($previous_or_first)"
-	bindgesture swipe:left exec swaymsg "workspace $($next_or_new)"
-    bindsym Alt+Shift+Right exec swaymsg "move container to workspace $($next_or_new), workspace next_on_output"
-    bindsym Alt+Shift+Left exec swaymsg "move container to workspace $($previous_or_first), workspace prev_on_output"
-    bindgesture pinch:inward+up move up
-    bindgesture pinch:inward+down move down
-    bindgesture pinch:inward+left move left
-    bindgesture pinch:inward+right move right
-
-# Drag floating windows by holding down $mod and left mouse button.
+    bindsym $mod+t exec firefox
+    bindsym $mod+e exec $files
+    bindsym $mod+Shift+s exec grim -g "$(slurp)" - | swappy -f -
+    # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
     # Change normal to inverse to use left mouse button for resizing and right
@@ -116,9 +106,12 @@ output * bg ~/.config/sway/bg/wallpaper.jpg fill
 
     # Reload the configuration file
     bindsym $mod+Shift+c reload
-
+    #bindsym XF86AudioPlay exec playerctl play-pause
+    #bindsym XF86AudioNext exec playerctl next
+    #bindsym XF86AudioPrev exec playerctl previous
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym Ctrl+Alt+v exec clipman pick -t rofi    
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
@@ -143,6 +136,13 @@ output * bg ~/.config/sway/bg/wallpaper.jpg fill
     bindsym $mod+Shift+Down move down
     bindsym $mod+Shift+Up move up
     bindsym $mod+Shift+Right move right
+     bindsym Alt+Right exec swaymsg "workspace $($next_or_new)"
+    bindsym Alt+Left exec swaymsg "workspace $($previous_or_first)" 
+    bindgesture swipe:right exec swaymsg "workspace $($previous_or_first)"
+	bindgesture swipe:left exec swaymsg "workspace $($next_or_new)"
+    bindsym Alt+Shift+Right exec swaymsg "move container to workspace $($next_or_new), workspace next_on_output"
+    bindsym Alt+Shift+Left exec swaymsg "move container to workspace $($previous_or_first), workspace prev_on_output"
+   
 #
 # Workspaces:
 #
@@ -182,19 +182,19 @@ output * bg ~/.config/sway/bg/wallpaper.jpg fill
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
     bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
+    bindsym $mod+a layout toggle split
 
     # Make the current focus fullscreen
-    bindsym $mod+f11 fullscreen
+    bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+w floating toggle
-	
+    bindsym Alt+space floating toggle
+
     # Swap focus between the tiling area and the floating area
     bindsym $mod+space focus mode_toggle
 
     # Move focus to the parent container
-    bindsym $mod+a focus parent
+    #bindsym $mod+a focus parent
 #
 # Scratchpad:
 #
@@ -231,6 +231,7 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
 # Include configs from 3 locations:
 #  - /usr/share/sway/config.d
 #  - /etc/sway/config.d
