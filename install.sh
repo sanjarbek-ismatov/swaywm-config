@@ -59,8 +59,13 @@ sudo dnf install Multimedia
 # HW acceleration
 echo "HW acceleration"
 sudo dnf install ffmpeg ffmpeg-libs libva libva-utils
+
+sudo dnf swap mesa-va-drivers mesa-va-drivers-freeworld
+sudo dnf swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
+
 sudo dnf config-manager --set-enabled fedora-cisco-openh264
 sudo dnf install -y openh264 gstreamer1-plugin-openh264 mozilla-openh264
+
 
 # Time
 
