@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1729144180867472-1</unique-id>
+	<command>foot -D $(pwd) </command>
+	<description>Example for a custom action</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>vscode</icon>
+	<name>Open VS Code here</name>
+	<submenu></submenu>
+	<unique-id>1729153723494964-1</unique-id>
+	<command>code --ozone-platform-hint=wayland $(pwd)</command>
+	<description></description>
+	<range>*</range>
+	<patterns>*</patterns>
+	<directories/>
+</action>
+</actions>

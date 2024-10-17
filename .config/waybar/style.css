@@ -7,7 +7,7 @@
 window#waybar {
     /* background-color: rgba(43, 48, 59, 0.5);
      */
-     background-color: #000000;
+     background-color: #ffffff;
     /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
     color: #ffffff;
     transition-property: background-color;
@@ -58,7 +58,8 @@ button:hover {
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
-    color: #ffffff;
+    border: 1px solid transparent;
+    color: #000000;
 }
 
 #workspaces button:hover {
@@ -66,13 +67,17 @@ button:hover {
 }
 
 #workspaces button.focused {
-    background-color: #64727D;
-    box-shadow: inset 0 -3px #ffffff;
+    /* background-color: #64727D; */
+    border: 1px solid #000000;
+    /* box-shadow: inset 0 -3px #ffffff; */
 }
 
 #workspaces button.urgent {
     background-color: #eb4d4b;
 }
+#window{
+    color: #000000;
+} 
 
 #mode {
     background-color: #64727D;
@@ -97,7 +102,7 @@ button:hover {
 #power-profiles-daemon,
 #mpd {
     padding: 0 10px;
-    color: #ffffff;
+    color: #000000;
 }
 
 #window,
@@ -116,13 +121,13 @@ button:hover {
 }
 
 #clock {
-    color: #ffffff;
-    border-bottom: 2px solid #ffffff;
+    color: #000000;
+    border-bottom: 2px solid #000000;
 }
 
 #battery {
-    color: #ffffff;
-    border-bottom: 2px solid #ffffff;
+    color: #000000;
+    border-bottom: 2px solid #000000;
 }
 
 #battery.charging, #battery.plugged {
