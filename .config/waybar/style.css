@@ -103,6 +103,7 @@ button:hover {
 #mpd {
     padding: 0 10px;
     color: #000000;
+    border-bottom: 1px solid #000000;
 }
 
 #window,
@@ -156,7 +157,7 @@ button:hover {
 #power-profiles-daemon {
     padding-right: 15px;
 }
-
+/*
 #power-profiles-daemon.performance {
     color: #f53c3c;
     border-bottom: 2px solid #f53c3c;
@@ -349,3 +350,4 @@ label:focus {
 #privacy-item.audio-out {
     background-color: #0069d4;
 }
+*/

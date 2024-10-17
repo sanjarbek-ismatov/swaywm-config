@@ -30,23 +30,26 @@ set $rofi_cmd rofi \
         -terminal '$term'
 # Shows a combined list of the applications with desktop files and
 # executables from PATH.
+exec waybar
 # TODO: add window with the next release of rofi-wayland
 set $menu $rofi_cmd -show drun -modi drun
 set $next_or_new swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (max_by(.num) | .num) as $maxOutput | (.[] | select(.focused == true) | .num) as $current | if $maxOutput > $current then "next_on_output" else $max+1 end'
 set $previous_or_first swaymsg -r -t get_workspaces | jq -r --arg OUTPUT $(swaymsg -t get_outputs -r | jq -r '.[] | select(.focused == true) | .name') '(. | (max_by(.num) | .num)) as $max | [.[] | select(.output == $OUTPUT)] | (min_by(.num) | .num) as $minOutput | (.[] | select(.focused == true) | .num) as $current | if $minOutput < $current then "prev_on_output" else $current end'
 
+
+for_window [app_id="copyq"] floating enable, resize set 30 ppt 50 ppt
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # Requires: desktop-backgrounds-compat, swaybg
-output * bg /usr/share/backgrounds/default.png fill
+output * bg /home/$(whoami)/Pictures/Wallpapers/wallpaper-1.jpg fill
 #
 # Example configuration:
 #
 output eDP-1  resolution 1920x1080 position 1920,0 scale 1
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
-exec wl-paste --watch  clipman store
+# exec wl-paste --watch  clipman store
 ### Idle configuration
 #
 # Example configuration:
@@ -90,13 +93,17 @@ input "type:touchpad" {
     # Kill focused window
     bindsym $mod+q kill
     bindsym Alt+F4 kill
-
+    bindsym Ctrl+Alt+b exec killall waybar || waybar
+    bindsym Ctrl+Alt+l exec swaylock
     # Start your launcher
     bindsym $mod+d exec $menu
     bindsym $mod+c exec code
     bindsym $mod+t exec firefox
     bindsym $mod+e exec $files
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | swappy -f -
+    bindsym $mod+Shift+f exec grim ~/Pictures/$(date +'%Y-%m-%d_%H-%M-%S').png
+    bindsym $mod+Shift+w exec grim -g "$(slurp)" ~/Pictures/$(date +'%Y-%m-%d_%H-%M-%S').png
+
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -110,7 +117,7 @@ input "type:touchpad" {
     #bindsym XF86AudioNext exec playerctl next
     #bindsym XF86AudioPrev exec playerctl previous
     # Exit sway (logs you out of your Wayland session)
-bindsym Ctrl+Alt+v exec clipman pick -t rofi    
+# bindsym Ctrl+Alt+v exec clipman pick -t rofi    
 bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
